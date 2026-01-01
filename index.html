@@ -1,217 +1,346 @@
+```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نمایش ویدیو Aparat</title>
+    <title>چرخه آب - درس تعاملی</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Tahoma', sans-serif;
+            background-color: #e0f7fa;
+            color: #333;
+            margin: 0;
             padding: 20px;
-            color: #fff;
+            text-align: center;
         }
-        
-        .video-container {
-            width: 100%;
-            max-width: 900px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        h1, h2 {
+            color: #0277bd;
         }
-        
-        .video-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        
-        .video-header {
-            background: linear-gradient(90deg, #0f3460, #533483);
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .video-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #fff;
-        }
-        
-        .platform-badge {
-            background: #ff4757;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .video-wrapper {
+        .animation-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* نسبت 16:9 */
-            height: 0;
+            height: 300px;
+            background: #81d4fa;
+            border: 2px solid #0288d1;
+            border-radius: 10px;
             overflow: hidden;
-            background: #000;
+            margin-bottom: 20px;
         }
-        
-        .video-iframe {
+        .sea {
             position: absolute;
-            top: 0;
-            left: 0;
+            bottom: 0;
             width: 100%;
-            height: 100%;
+            height: 100px;
+            background: #0288d1;
+            animation: wave 2s infinite alternate;
+        }
+        @keyframes wave {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-5px); }
+        }
+        .vapor {
+            position: absolute;
+            bottom: 100px;
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: evaporate 3s infinite;
+        }
+        .vapor:nth-child(2) { left: 20%; animation-delay: 0.5s; }
+        .vapor:nth-child(3) { left: 40%; animation-delay: 1s; }
+        .vapor:nth-child(4) { left: 60%; animation-delay: 1.5s; }
+        .vapor:nth-child(5) { left: 80%; animation-delay: 2s; }
+        @keyframes evaporate {
+            0% { transform: translateY(0); opacity: 0.7; }
+            100% { transform: translateY(-200px); opacity: 0; }
+        }
+        .cloud {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 100px;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: formCloud 3s forwards;
+        }
+        @keyframes formCloud {
+            0% { opacity: 0; transform: translate(-50%, 0) scale(0.5); }
+            100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+        }
+        .rain {
+            position: absolute;
+            top: 150px;
+            width: 5px;
+            height: 20px;
+            background: #0288d1;
+            opacity: 0;
+            animation: rainFall 1s infinite;
+        }
+        .rain:nth-child(6) { left: 30%; animation-delay: 0.2s; }
+        .rain:nth-child(7) { left: 40%; animation-delay: 0.4s; }
+        .rain:nth-child(8) { left: 50%; animation-delay: 0.6s; }
+        .rain:nth-child(9) { left: 60%; animation-delay: 0.8s; }
+        .rain:nth-child(10) { left: 70%; animation-delay: 1s; }
+        @keyframes rainFall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(150px); opacity: 0; }
+        }
+        .stage-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #ffeb3b;
             border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            transition: background 0.3s;
         }
-        
-        .video-footer {
-            padding: 20px 30px;
-            background: rgba(0, 0, 0, 0.3);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        button:hover {
+            background: #fdd835;
         }
-        
-        .video-description {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #e0e0e0;
-            margin-bottom: 15px;
+        .quiz-section {
+            display: none;
         }
-        
-        .video-info {
+        .question {
+            margin-bottom: 20px;
+        }
+        .options {
             display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 15px;
-            font-size: 0.9rem;
-            color: #aaa;
+            flex-direction: column;
+            gap: 10px;
         }
-        
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .option {
+            background: #c8e6c9;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
         }
-        
-        .icon {
-            color: #533483;
+        .option:hover {
+            background: #a5d6a7;
         }
-        
-        @media (max-width: 768px) {
-            .video-header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            .video-title {
-                font-size: 1.3rem;
-            }
-            
-            .video-footer {
-                padding: 15px;
-            }
-            
-            .video-info {
-                flex-direction: column;
-                gap: 10px;
-            }
+        .feedback {
+            font-weight: bold;
+            margin-top: 10px;
         }
-        
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
+        .score {
+            display: none;
+            margin-top: 20px;
+        }
+        .stars {
+            font-size: 30px;
+            color: #ffeb3b;
+        }
+        @media (max-width: 600px) {
+            .animation-container {
+                height: 200px;
             }
-            
-            .video-title {
-                font-size: 1.1rem;
-            }
-            
-            .video-description {
-                font-size: 0.9rem;
+            button {
+                font-size: 14px;
+                padding: 8px 16px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="video-container">
-        <div class="video-header">
-            <h1 class="video-title">ویدیوی اختصاصی Aparat</h1>
-            <div class="platform-badge">Aparat.com</div>
+    <div class="container">
+        <h1>چرخه آب</h1>
+        <p>بیا با هم چرخه آب رو یاد بگیریم! آب از دریا تبخیر می‌شه، ابرها تشکیل می‌شن و بعد بارون می‌باره.</p>
+        
+        <div class="animation-container" id="animation">
+            <div class="sea"></div>
+            <div class="vapor"></div>
+            <div class="vapor"></div>
+            <div class="vapor"></div>
+            <div class="vapor"></div>
+            <div class="vapor"></div>
+            <div class="cloud" id="cloud"></div>
+            <div class="rain"></div>
+            <div class="rain"></div>
+            <div class="rain"></div>
+            <div class="rain"></div>
+            <div class="rain"></div>
         </div>
         
-        <div class="video-wrapper">
-            <!-- کد embed ویدیو Aparat -->
-            <iframe class="video-iframe" 
-                    src="https://www.aparat.com/video/video/embed/videohash/non250j/vt/frame" 
-                    allowfullscreen>
-            </iframe>
+        <div class="stage-buttons">
+            <button onclick="showEvaporation()">تبخیر</button>
+            <button onclick="showCloudFormation()">تشکیل ابر</button>
+            <button onclick="showRain()">بارش</button>
         </div>
         
-        <div class="video-footer">
-            <p class="video-description">
-                این ویدیو به صورت زنده از سرویس Aparat بارگذاری شده است. کیفیت ویدیو به صورت خودکار با سرعت اینترنت شما تنظیم می‌شود.
-            </p>
-            <div class="video-info">
-                <div class="info-item">
-                    <span class="icon">📺</span>
-                    <span>پخش ویدیو</span>
-                </div>
-                <div class="info-item">
-                    <span class="icon">🔊</span>
-                    <span>صدای استریو</span>
-                </div>
-                <div class="info-item">
-                    <span class="icon">📱</span>
-                    <span>واکنش‌گرا</span>
-                </div>
-                <div class="info-item">
-                    <span class="icon">⚡</span>
-                    <span>بارگذاری سریع</span>
-                </div>
+        <button onclick="startQuiz()">شروع کوییز</button>
+        
+        <div class="quiz-section" id="quiz">
+            <h2>کوییز چرخه آب</h2>
+            <div id="questions"></div>
+            <div class="score" id="score">
+                <p>امتیاز شما: <span id="finalScore"></span> از 5</p>
+                <div class="stars" id="stars"></div>
             </div>
+            <button onclick="resetAll()">شروع دوباره</button>
         </div>
     </div>
-
+    
     <script>
-        // اضافه کردن افکت‌های تعاملی
-        document.addEventListener('DOMContentLoaded', function() {
-            const videoContainer = document.querySelector('.video-container');
-            
-            // افکت هنگام بارگذاری
+        const vapors = document.querySelectorAll('.vapor');
+        const cloud = document.getElementById('cloud');
+        const rains = document.querySelectorAll('.rain');
+        const animation = document.getElementById('animation');
+        
+        function showEvaporation() {
+            vapors.forEach(v => v.style.animation = 'evaporate 3s infinite');
+            cloud.style.opacity = 0;
+            rains.forEach(r => r.style.animation = 'none');
+        }
+        
+        function showCloudFormation() {
+            vapors.forEach(v => v.style.animation = 'none');
+            cloud.style.animation = 'formCloud 3s forwards';
+            rains.forEach(r => r.style.animation = 'none');
+        }
+        
+        function showRain() {
+            vapors.forEach(v => v.style.animation = 'none');
+            cloud.style.animation = 'none';
+            cloud.style.opacity = 1;
+            rains.forEach(r => r.style.animation = 'rainFall 1s infinite');
+        }
+        
+        const questions = [
+            {
+                question: "اولین مرحله چرخه آب چیست؟",
+                options: ["تبخیر", "بارش", "تشکیل ابر"],
+                answer: 0
+            },
+            {
+                question: "آب از کجا تبخیر می‌شود؟",
+                options: ["ابر", "دریا", "زمین"],
+                answer: 1
+            },
+            {
+                question: "ابرها چطور تشکیل می‌شوند؟",
+                options: ["از باران", "از بخار آب", "از باد"],
+                answer: 1
+            },
+            {
+                question: "بارش به چه معناست؟",
+                options: ["تبخیر آب", "ریختن آب از ابرها", "تشکیل ابر"],
+                answer: 1
+            },
+            {
+                question: "پس از بارش، آب کجا می‌رود؟",
+                options: ["به هوا", "به رودخانه و دریا", "به ابر"],
+                answer: 1
+            }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        
+        function startQuiz() {
+            document.getElementById('quiz').style.display = 'block';
+            showQuestion();
+        }
+        
+        function showQuestion() {
+            const questionsDiv = document.getElementById('questions');
+            questionsDiv.innerHTML = '';
+            if (currentQuestion < questions.length) {
+                const q = questions[currentQuestion];
+                const questionElem = document.createElement('div');
+                questionElem.classList.add('question');
+                questionElem.innerHTML = `<p>${q.question}</p>`;
+                const optionsDiv = document.createElement('div');
+                optionsDiv.classList.add('options');
+                q.options.forEach((opt, i) => {
+                    const option = document.createElement('div');
+                    option.classList.add('option');
+                    option.textContent = opt;
+                    option.onclick = () => checkAnswer(i, option);
+                    optionsDiv.appendChild(option);
+                });
+                questionElem.appendChild(optionsDiv);
+                const feedback = document.createElement('div');
+                feedback.classList.add('feedback');
+                feedback.id = `feedback${currentQuestion}`;
+                questionElem.appendChild(feedback);
+                questionsDiv.appendChild(questionElem);
+            } else {
+                showScore();
+            }
+        }
+        
+        function checkAnswer(selected, optionElem) {
+            const q = questions[currentQuestion];
+            const feedback = document.getElementById(`feedback${currentQuestion}`);
+            if (selected === q.answer) {
+                feedback.textContent = 'درست است!';
+                feedback.style.color = 'green';
+                score++;
+                playBeep();
+            } else {
+                feedback.textContent = 'غلط است!';
+                feedback.style.color = 'red';
+            }
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.onclick = null);
             setTimeout(() => {
-                videoContainer.style.opacity = '0';
-                videoContainer.style.transform = 'translateY(20px)';
-                videoContainer.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                
-                setTimeout(() => {
-                    videoContainer.style.opacity = '1';
-                    videoContainer.style.transform = 'translateY(0)';
-                }, 100);
-            }, 100);
-            
-            // نمایش پیام وقتی ویدیو کلیک می‌شود
-            const videoIframe = document.querySelector('.video-iframe');
-            videoIframe.addEventListener('load', function() {
-                console.log('ویدیو با موفقیت بارگذاری شد!');
-            });
-        });
+                currentQuestion++;
+                showQuestion();
+            }, 1500);
+        }
+        
+        function showScore() {
+            document.getElementById('score').style.display = 'block';
+            document.getElementById('finalScore').textContent = score;
+            const starsDiv = document.getElementById('stars');
+            starsDiv.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                starsDiv.innerHTML += i <= score ? '★' : '☆';
+            }
+        }
+        
+        function resetAll() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('score').style.display = 'none';
+            vapors.forEach(v => v.style.animation = 'none');
+            cloud.style.animation = 'none';
+            cloud.style.opacity = 0;
+            rains.forEach(r => r.style.animation = 'none');
+        }
+        
+        function playBeep() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+            oscillator.connect(audioCtx.destination);
+            oscillator.start();
+            setTimeout(() => oscillator.stop(), 200);
+        }
     </script>
 </body>
 </html>
+```
